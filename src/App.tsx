@@ -4,10 +4,11 @@ import Navbar from "./components/layout/Navbar"
 function App() {
 
   return (
-    <>
-      <Navbar />,
+    <div className="max-w-7xl mx-auto items-center">
+    
+      <Navbar />
       <Outlet />
-    </>
+    </div>
   )
 }
 

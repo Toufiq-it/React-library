@@ -3,7 +3,7 @@ import { ModeToggle } from "../mode-toggler";
 
 function Navbar() {
     return (
-        <nav className="max-w-7xl mx-auto h-16 flex justify-between items-center gap-3 px-5">
+        <nav className="h-16 flex justify-between items-center gap-6">
             <div className="flex items-center">
                 <h1 className="font-bold text-2xl pr-10">Library </h1>
             </div>

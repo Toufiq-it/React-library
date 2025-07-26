@@ -7,5 +7,5 @@ export interface IBooks {
     description? : string,
     copies : number,
     available: boolean,
-    // deductCopies: (quantity: number) => void;
+    deductCopies: (quantity: number) => void;
 };
