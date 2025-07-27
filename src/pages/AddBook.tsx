@@ -11,21 +11,26 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { addBook } from "@/redux/features/book/bookSlice";
-import { useAppDispatch } from "@/redux/hook";
-import type { IBooks } from "@/types";
+import { useCreateBookMutation } from "@/redux/api/baseApi";
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form";
 
 
 export function AddBook() {
     const form = useForm();
 
-    const dispatch = useAppDispatch()
+    const [ createBook, {data}] = useCreateBookMutation()
 
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        console.log(data);
-        dispatch(addBook(data as IBooks))
-
+    console.log("Data", data);
+    
+    const onSubmit: SubmitHandler<FieldValues> = async(data) => {
+        const bookData = {
+            ...data,
+            available: true,
+        };
+        const res = await createBook(bookData).unwrap();
+        
+        console.log("Inside Submit function", res);
+        form.reset();
     }
 
     return (

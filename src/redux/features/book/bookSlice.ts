@@ -1,4 +1,3 @@
-import type { RootState } from '@/redux/store';
 import type { IBooks } from '@/types';
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
@@ -25,16 +24,13 @@ const bookSlice = createSlice({
             state.books.push(bookData)
         },
         deleteBook: (state, action)=>{
-            state.books = state.books.filter((book)=> book.id !== action.payload);
+            state.books = state.books.filter((book)=> book._id !== action.payload);
         },
     },
 });
 
 
-export const selectBooks = (state: RootState) => {
-    return state.library.books;
-};
 
-export const { addBook, deleteBook } = bookSlice.actions;
+// export const { addBook, deleteBook } = bookSlice.actions;
 
 export default bookSlice.reducer;

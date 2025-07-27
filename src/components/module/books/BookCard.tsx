@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { deleteBook } from "@/redux/features/book/bookSlice";
-import { useAppDispatch } from "@/redux/hook";
+// import { deleteBook } from "@/redux/features/book/bookSlice";
+// import { useAppDispatch } from "@/redux/hook";
 import type { IBooks } from "@/types";
-import { BookmarkPlus, SquarePen, Trash2 } from "lucide-react";
+import { SquarePen, Trash2 } from "lucide-react";
+import { AddBorrow } from "../borrow/AddBorrow";
 
 interface IProps {
     book: IBooks;
@@ -10,7 +11,7 @@ interface IProps {
 
 function BookCard({ book }: IProps) {
 
-    const dispatch = useAppDispatch();
+    // const dispatch = useAppDispatch();
 
     return (
         <div className="border shadow-xl rounded-2xl p-10">
@@ -38,15 +39,10 @@ function BookCard({ book }: IProps) {
                 >
                     Edit <SquarePen />
                 </Button>
+                
+                <AddBorrow />
                 <Button
-                    // onClick={() => dispatch(deleteUser(user.id))}
-                    className=' text-green-500 cursor-pointer'
-                    variant="outline"
-                >
-                    Borrow <BookmarkPlus />
-                </Button>
-                <Button
-                    onClick={() => dispatch(deleteBook(book.id))}
+                    // onClick={() => dispatch(deleteBook(book.id))}
                     className=' text-red-500 cursor-pointer hover:bg-red-500 hover:text-white'
                     variant="outline"
                 >
