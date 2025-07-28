@@ -9,3 +9,9 @@ export interface IBooks {
     available: boolean,
     deductCopies: (quantity: number) => void;
 };
+
+export interface IBorrow {
+    book : string,
+    quantity: number,
+    dueDate: Date
+};

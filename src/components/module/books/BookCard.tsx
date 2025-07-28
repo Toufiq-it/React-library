@@ -2,8 +2,9 @@ import { Button } from "@/components/ui/button";
 // import { deleteBook } from "@/redux/features/book/bookSlice";
 // import { useAppDispatch } from "@/redux/hook";
 import type { IBooks } from "@/types";
-import { SquarePen, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { AddBorrow } from "../borrow/AddBorrow";
+import { UpdateBook } from "./UpdateBook";
 
 interface IProps {
     book: IBooks;
@@ -32,14 +33,8 @@ function BookCard({ book }: IProps) {
                 </div>
             </div>
             <div className="flex items-center justify-between mt-5">
-                <Button
-                    // onClick={() => dispatch(deleteUser(user.id))}
-                    className=' text-blue-500 cursor-pointer'
-                    variant="outline"
-                >
-                    Edit <SquarePen />
-                </Button>
                 
+                <UpdateBook book={book} />
                 <AddBorrow />
                 <Button
                     // onClick={() => dispatch(deleteBook(book.id))}
