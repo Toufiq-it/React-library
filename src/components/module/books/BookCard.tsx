@@ -7,7 +7,7 @@ import { AddBorrow } from "../borrow/AddBorrow";
 import { UpdateBook } from "./UpdateBook";
 
 interface IProps {
-    book: IBooks;
+    book: IBooks,
 }
 
 function BookCard({ book }: IProps) {
@@ -21,21 +21,22 @@ function BookCard({ book }: IProps) {
                     <h1 className="text-2xl font-bold">{book.title}</h1>
                 </div>
                 <div className="space-y-0.5">
-                    <p className=""> <span className="font-bold">Author: </span>{book.author}</p>
+                    <h1 className=""> <span className="font-bold">Author: </span>{book.author}</h1>
                     <p className=""> <span className="font-bold">Genre: </span>{book.genre}</p>
                     <p className=""> <span className="font-bold">ISBN: </span>{book.isbn}</p>
                     <p className=""> <span className="font-bold">Copies: </span>{book.copies}</p>
                     <p className=""> <span className="font-bold">Availability: </span>
-                        {book.available === true ? 
-                        <span className="text-green-500">Available</span> : 
-                        <span className="text-red-500">Not Available</span>}
+                        {book.available !== true ? 
+                        <span className="text-red-500">Not Available</span> :
+                        <span className="text-green-500">Available</span>  
+                        }
                     </p>
                 </div>
             </div>
             <div className="flex items-center justify-between mt-5">
                 
-                <UpdateBook book={book} />
-                <AddBorrow />
+                <UpdateBook book={book} key={book._id} />
+                <AddBorrow book={book} />
                 <Button
                     // onClick={() => dispatch(deleteBook(book.id))}
                     className=' text-red-500 cursor-pointer hover:bg-red-500 hover:text-white'

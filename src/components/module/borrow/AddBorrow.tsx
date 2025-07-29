@@ -15,18 +15,43 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/
 import { Input } from "@/components/ui/input"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
+import { useCreateBorrowMutation } from "@/redux/api/baseApi"
+import type { IBooks, IBorrow } from "@/types"
 import { format } from "date-fns"
 import { BookmarkPlus, CalendarIcon } from "lucide-react"
-import { useForm } from "react-hook-form"
+import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form"
 
 
-export function AddBorrow() {
-    const form = useForm();
+interface BorrowFormProps {
+    book: IBooks;
+}
 
-    const onSubmit = (data) => {
-        console.log(data);
+export function AddBorrow({ book }: BorrowFormProps) {
 
-    }
+    const [createBorrow, {data, isLoading, isError}] = useCreateBorrowMutation();
+    console.log(data, isLoading,isError);
+    
+    const form = useForm<IBorrow>({
+        defaultValues: {
+            bookId: book._id,
+        }
+    });
+
+    const onSubmit: SubmitHandler<FieldValues> = async(data : FieldValues) => {
+        // const quantity = book.copies > data.quantity ? (data.quantity === "Not Available") : "Available";
+        // console.log(data);
+        const bookId = book._id;
+        const borrowData = {
+            ...data,
+            bookId: bookId,
+            
+        }
+        const res = await createBorrow({id: book._id, body: borrowData }).unwrap();
+        console.log("Inside Submit function", res);
+        
+
+    };
+
 
     return (
         <AlertDialog>
@@ -40,19 +65,21 @@ export function AddBorrow() {
             <AlertDialogContent>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)}>
-                        <AlertDialogHeader className="space-y-5">
-                            <AlertDialogTitle>Add To The Borrow</AlertDialogTitle>
-                            <AlertDialogDescription className="space-y-5">
+                        <AlertDialogHeader className="space-y-2">
+                            <AlertDialogTitle>The borrow book is: <span className="text-blue-300">{book.title}</span> </AlertDialogTitle>
+                            <AlertDialogDescription>
+                            </AlertDialogDescription>
+                            <div className="space-y-5">
 
                                 {/* book id */}
                                 <FormField
                                     control={form.control}
-                                    name="quantity"
+                                    name="bookId"
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel>Book Id</FormLabel>
                                             <FormControl>
-                                                <Input required type="number" placeholder="Number" {...field} value={field.value || ""} />
+                                                <Input readOnly type="text" className="bg-gray-100" {...field} value={field.value || ""} />
                                             </FormControl>
                                         </FormItem>
                                     )}
@@ -113,7 +140,7 @@ export function AddBorrow() {
                                     )}
                                 />
 
-                            </AlertDialogDescription>
+                            </div>
                         </AlertDialogHeader>
                         <AlertDialogFooter className="mt-4">
                             <AlertDialogCancel>Cancel</AlertDialogCancel>
@@ -124,4 +151,5 @@ export function AddBorrow() {
             </AlertDialogContent>
         </AlertDialog>
     )
-}
+};
+

@@ -23,9 +23,10 @@ export function AddBook() {
     console.log("Data", data);
     
     const onSubmit: SubmitHandler<FieldValues> = async(data) => {
+        const available = (data.copies > 0) ? true : false;
         const bookData = {
             ...data,
-            available: true,
+            available: available,
         };
         const res = await createBook(bookData).unwrap();
         

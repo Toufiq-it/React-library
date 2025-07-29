@@ -2,6 +2,7 @@ import BookCard from "@/components/module/books/BookCard";
 import { Button } from "@/components/ui/button";
 import { useGetBooksQuery } from "@/redux/api/baseApi";
 import type { IBooks } from "@/types";
+import { Loader } from "lucide-react";
 
 import { Link } from "react-router";
 
@@ -14,7 +15,7 @@ function AllBooks() {
     // console.log({data, isLoading, isError});
 
     if (isLoading) {
-        return <p>Loading....</p>;
+        return <Loader className="flex items-center justify-center m-auto" />;
     }
 
 

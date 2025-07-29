@@ -11,7 +11,7 @@ export interface IBooks {
 };
 
 export interface IBorrow {
-    book : string,
+    bookId : string,
     quantity: number,
     dueDate: Date
 };
