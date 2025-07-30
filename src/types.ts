@@ -11,7 +11,15 @@ export interface IBooks {
 };
 
 export interface IBorrow {
-    bookId : string,
+    book : string,
     quantity: number,
     dueDate: Date
+};
+
+export interface IBorrowSummary {
+    book: {
+        title: string,
+        isbn: string,
+    },
+    totalQuantity: number,
 };

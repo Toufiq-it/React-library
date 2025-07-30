@@ -19,7 +19,10 @@ import { useCreateBorrowMutation } from "@/redux/api/baseApi"
 import type { IBooks, IBorrow } from "@/types"
 import { format } from "date-fns"
 import { BookmarkPlus, CalendarIcon } from "lucide-react"
+import { useState } from "react"
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form"
+import { Link } from "react-router"
+import { toast } from "react-toastify"
 
 
 interface BorrowFormProps {
@@ -27,34 +30,33 @@ interface BorrowFormProps {
 }
 
 export function AddBorrow({ book }: BorrowFormProps) {
+    const [open, setOpen] = useState(false);
+    const [createBorrow] = useCreateBorrowMutation();
+    // console.log(data);
 
-    const [createBorrow, {data, isLoading, isError}] = useCreateBorrowMutation();
-    console.log(data, isLoading,isError);
-    
     const form = useForm<IBorrow>({
         defaultValues: {
-            bookId: book._id,
+            book: book._id,
         }
     });
 
-    const onSubmit: SubmitHandler<FieldValues> = async(data : FieldValues) => {
+    const onSubmit: SubmitHandler<FieldValues> = async (data: FieldValues) => {
         // const quantity = book.copies > data.quantity ? (data.quantity === "Not Available") : "Available";
-        // console.log(data);
+        console.log(data);
         const bookId = book._id;
         const borrowData = {
+            book: bookId,
             ...data,
-            bookId: bookId,
-            
-        }
-        const res = await createBorrow({id: book._id, body: borrowData }).unwrap();
+        };
+        const res = await createBorrow(borrowData).unwrap();
         console.log("Inside Submit function", res);
-        
+        setOpen(false);
+        toast.success("Book Borrowed successfully!");
 
     };
 
-
     return (
-        <AlertDialog>
+        <AlertDialog open={open} onOpenChange={setOpen}>
             <AlertDialogTrigger asChild>
                 <Button
                     className=' text-green-500 cursor-pointer'
@@ -66,7 +68,7 @@ export function AddBorrow({ book }: BorrowFormProps) {
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)}>
                         <AlertDialogHeader className="space-y-2">
-                            <AlertDialogTitle>The borrow book is: <span className="text-blue-300">{book.title}</span> </AlertDialogTitle>
+                            <AlertDialogTitle>Borrow book: <span className="text-blue-300">{book.title}</span> </AlertDialogTitle>
                             <AlertDialogDescription>
                             </AlertDialogDescription>
                             <div className="space-y-5">
@@ -74,12 +76,12 @@ export function AddBorrow({ book }: BorrowFormProps) {
                                 {/* book id */}
                                 <FormField
                                     control={form.control}
-                                    name="bookId"
+                                    name="book"
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel>Book Id</FormLabel>
                                             <FormControl>
-                                                <Input readOnly type="text" className="bg-gray-100" {...field} value={field.value || ""} />
+                                                <Input readOnly type="text" className="bg-gray-100" {...field} />
                                             </FormControl>
                                         </FormItem>
                                     )}
@@ -139,12 +141,15 @@ export function AddBorrow({ book }: BorrowFormProps) {
                                         </FormItem>
                                     )}
                                 />
-
                             </div>
                         </AlertDialogHeader>
                         <AlertDialogFooter className="mt-4">
                             <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction type="submit">Continue</AlertDialogAction>
+                            <AlertDialogAction >
+                                <Link to="/borrow-summary" type="submit">
+                                    Borrow
+                                </Link>
+                            </AlertDialogAction>
                         </AlertDialogFooter>
                     </form>
                 </Form>
@@ -152,4 +157,5 @@ export function AddBorrow({ book }: BorrowFormProps) {
         </AlertDialog>
     )
 };
+
 

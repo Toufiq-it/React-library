@@ -19,6 +19,7 @@ import type { IBooks } from "@/types"
 import { SquarePen } from "lucide-react"
 import { useState } from "react"
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form"
+import { toast } from "react-toastify"
 
 
 interface UpdateFormProps {
@@ -27,9 +28,9 @@ interface UpdateFormProps {
 
 export function UpdateBook({ book }: UpdateFormProps) {
     const [open, setOpen] = useState(false);
-
-    const [updateBook, { data }] = useUpdateBookMutation()
-
+    
+    const [updateBook] = useUpdateBookMutation();
+    
     const form = useForm({
         defaultValues: {
             title: book.title,
@@ -42,10 +43,7 @@ export function UpdateBook({ book }: UpdateFormProps) {
     });
 
     const onSubmit: SubmitHandler<FieldValues> = async (data: FieldValues) => {
-        // console.log("Updated data:", data);
-        // console.log(book._id);
         const available = (data.copies > 0) ? true : false;
-
         const bookData = {
             ...data,
             available: available,
@@ -54,9 +52,8 @@ export function UpdateBook({ book }: UpdateFormProps) {
         const res = await updateBook({ id: book._id, body: bookData })
         console.log("updated book", res);
         setOpen(false);
-
+        toast.success("Book Updated successfully!");
     };
-
 
     return (
         <AlertDialog open={open} onOpenChange={setOpen}>
@@ -155,7 +152,6 @@ export function UpdateBook({ book }: UpdateFormProps) {
                                         </FormItem>
                                     )}
                                 />
-
                                 {/* description */}
                                 <FormField
                                     control={form.control}
@@ -173,12 +169,12 @@ export function UpdateBook({ book }: UpdateFormProps) {
                         </AlertDialogHeader>
                         <AlertDialogFooter className="mt-4">
                             <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction type="submit">Continue</AlertDialogAction>
+                            <AlertDialogAction type="submit">Update</AlertDialogAction>
                         </AlertDialogFooter>
                     </form>
                 </Form>
             </AlertDialogContent>
         </AlertDialog>
     )
-}
+};
 
