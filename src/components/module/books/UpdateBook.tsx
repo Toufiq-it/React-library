@@ -59,7 +59,7 @@ export function UpdateBook({ book }: UpdateFormProps) {
         <AlertDialog open={open} onOpenChange={setOpen}>
             <AlertDialogTrigger asChild>
                 <Button
-                    className=' text-blue-500 cursor-pointer'
+                    className=' text-blue-500 hover:bg-blue-500 hover:text-white cursor-pointer'
                     variant="outline"
                 >
                     Edit <SquarePen />

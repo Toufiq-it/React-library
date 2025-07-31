@@ -23,7 +23,7 @@ function BookCard({ book }: IProps) {
     };
 
     return (
-        <div className="border shadow-xl rounded-2xl p-10">
+        <div className="border shadow-xl hover:shadow-blue-100 rounded-2xl p-10">
             <div className="items-center justify-center">
                 <div className="mb-5">
                     <h1 className="text-2xl font-bold">{book.title}</h1>

@@ -21,7 +21,7 @@ import { format } from "date-fns"
 import { BookmarkPlus, CalendarIcon } from "lucide-react"
 import { useState } from "react"
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form"
-import { Link } from "react-router"
+import { useNavigate } from "react-router"
 import { toast } from "react-toastify"
 
 
@@ -32,6 +32,7 @@ interface BorrowFormProps {
 export function AddBorrow({ book }: BorrowFormProps) {
     const [open, setOpen] = useState(false);
     const [createBorrow] = useCreateBorrowMutation();
+    const navigate = useNavigate();
     // console.log(data);
 
     const form = useForm<IBorrow>({
@@ -41,7 +42,6 @@ export function AddBorrow({ book }: BorrowFormProps) {
     });
 
     const onSubmit: SubmitHandler<FieldValues> = async (data: FieldValues) => {
-        // const quantity = book.copies > data.quantity ? (data.quantity === "Not Available") : "Available";
         console.log(data);
         const bookId = book._id;
         const borrowData = {
@@ -52,6 +52,7 @@ export function AddBorrow({ book }: BorrowFormProps) {
         console.log("Inside Submit function", res);
         setOpen(false);
         toast.success("Book Borrowed successfully!");
+        navigate("/borrow-summary");
 
     };
 
@@ -59,7 +60,7 @@ export function AddBorrow({ book }: BorrowFormProps) {
         <AlertDialog open={open} onOpenChange={setOpen}>
             <AlertDialogTrigger asChild>
                 <Button
-                    className=' text-green-500 cursor-pointer'
+                    className=' text-green-500 hover:bg-green-500 hover:text-white cursor-pointer'
                     variant="outline" >
                     Borrow <BookmarkPlus />
                 </Button>
@@ -145,10 +146,8 @@ export function AddBorrow({ book }: BorrowFormProps) {
                         </AlertDialogHeader>
                         <AlertDialogFooter className="mt-4">
                             <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction >
-                                <Link to="/borrow-summary" type="submit">
+                            <AlertDialogAction type="submit">
                                     Borrow
-                                </Link>
                             </AlertDialogAction>
                         </AlertDialogFooter>
                     </form>

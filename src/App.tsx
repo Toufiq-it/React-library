@@ -13,7 +13,7 @@ function App() {
           <Navbar />
         </div>
         <div className="p-4">
-          <ToastContainer position="top-center" autoClose={3000} />
+          <ToastContainer position="top-right" autoClose={3000} />
           <Outlet />
         </div>
       </div>

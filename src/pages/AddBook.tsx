@@ -33,9 +33,9 @@ export function AddBook() {
         const res = await createBook(bookData).unwrap();
         console.log("Inside Submit function", res);
 
+        navigate("/books");
         toast.success("Book added successfully!");
         form.reset();
-        navigate("/books");
     }
 
     return (
@@ -43,9 +43,9 @@ export function AddBook() {
             <h1 className="text-3xl md:text-4xl flex items-center justify-center font-semibold mt-10">Add a New Book</h1>
             <div className="flex items-center justify-center mt-10">
 
-                <Card className="w-[480px]">
+                <Card className="w-[480px] shadow-xl hover:shadow-2xl">
                     <CardHeader>
-                        <CardTitle>Enter your book informetion</CardTitle>
+                        <CardTitle className="text-xl">Enter your book informetion</CardTitle>
                         <CardDescription>
                         </CardDescription>
                     </CardHeader>
@@ -146,7 +146,7 @@ export function AddBook() {
                                 />
                             </CardContent>
                             <CardFooter className="flex justify-end gap-2 mt-5">
-                                <Button type="submit">
+                                <Button type="submit" className="cursor-pointer">
                                     Add Book
                                 </Button>
                             </CardFooter>
